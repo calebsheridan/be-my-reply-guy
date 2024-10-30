@@ -1,0 +1,24 @@
+number_of_replies: 5
+output_folder: "output"
+
+reply_criteria:
+  - primary_goal: "support the original tweet"
+  - sentiment: "match the original tweet"
+  - tone: "match the original tweet"
+  - length: "six words max"
+  - include_emoji: true
+  - include_hashtags: false
+  - use_rhetorical_questions: true
+  - use_puns: true
+  - use_writing_style: true
+
+models:
+  - name: "gpt-4o-mini"
+    base_url: "https://api.openai.com/v1"
+    api_key: "OPENAI_API_KEY"
+  - name: "gpt-4o"
+    base_url: "https://api.openai.com/v1"
+    api_key: "OPENAI_API_KEY"
+  - name: "gpt-4o-mini"
+    base_url: "https://api.openai.com/v1"
+    api_key: "OPENAI_API_KEY"

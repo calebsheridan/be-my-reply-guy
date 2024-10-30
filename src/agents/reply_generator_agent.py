@@ -48,23 +48,19 @@ class ReplyGeneratorAgent(Agent):
 
     def _create_personality_aware_prompt(self, tweet_context, tweet_analysis):
         """Create a detailed prompt incorporating all available context."""
-        reply_guy_config = self.config['reply_guy_account']
         reply_criteria = self.config['reply_criteria']
 
         prompt = f"""
-        Generate a reply to the following tweet:
+        # Generate a reply to the following tweet:
         "{tweet_context}"
 
-        Tweet Analysis:
+        # Tweet Analysis:
         {tweet_analysis}
+
+        # Requirements:
+        {reply_criteria}
         """
 
-        prompt += "\nConsider the following criteria for the reply:\n"
-        for criterion in reply_criteria:
-            for key, value in criterion.items():
-                prompt += f"- {key.capitalize()}: {value}\n"
-
-        prompt += f"\nAvoid discussing: {', '.join(reply_guy_config['avoid_topics'])}"
         return prompt
 
     def _generate_replies(self, prompt):
@@ -73,6 +69,8 @@ class ReplyGeneratorAgent(Agent):
             {"role": "system", "content": self.system_prompt},
             {"role": "user", "content": prompt}
         ]
+
+        logger.debug(f"Sending prompt to OpenAI: {messages}")
 
         try:
             response = self.get_chat_completions(messages, self.config['number_of_replies'])

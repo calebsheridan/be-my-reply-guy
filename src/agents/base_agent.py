@@ -21,7 +21,7 @@ load_dotenv()
 
 class Agent(ABC):
     def __init__(self, 
-                 model="gpt-3.5-turbo", 
+                 model="gpt-4o-mini", 
                  system_prompt="You are a helpful AI assistant.", 
                  base_url="https://api.openai.com/v1", 
                  api_key=None):
