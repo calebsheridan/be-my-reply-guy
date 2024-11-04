@@ -15,9 +15,10 @@ import base64
 import os
 from openai import OpenAI
 import requests
-from urllib.parse import urlparse
 import argparse
 from src.utils.logger import Logger
+from io import BytesIO
+import tempfile
 
 logger = Logger().get_logger(__name__)
 
@@ -115,33 +116,36 @@ class VideoProcessorAgent(Agent):
         logger.info(f"Processing video: {video_path}")
         
         try:
+            # Load video into memory
             if video_path.startswith(('http://', 'https://')):
-                # Handle URL
                 response = requests.get(video_path)
                 if response.status_code != 200:
                     logger.error(f"Error: Failed to download video from {video_path}")
                     return f"Error: Failed to download video. Status code: {response.status_code}"
-                
-                # Save the video to a temporary file
-                temp_file = f"temp_{os.path.basename(urlparse(video_path).path)}"
-                with open(temp_file, 'wb') as f:
-                    f.write(response.content)
-                video_path = temp_file
-            elif not os.path.exists(video_path):
-                logger.error(f"Error: Video file not found at {video_path}")
-                return "Error: Video file not found."
+                video_buffer = BytesIO(response.content)
+            else:
+                if not os.path.exists(video_path):
+                    logger.error(f"Error: Video file not found at {video_path}")
+                    return "Error: Video file not found."
+                with open(video_path, 'rb') as f:
+                    video_buffer = BytesIO(f.read())
 
-            frames = self.extract_frames(video_path)
+            # Write to a temporary file in memory
+            temp_file = tempfile.SpooledTemporaryFile()
+            temp_file.write(video_buffer.getvalue())
+            temp_file.seek(0)
+
+            cap = cv2.VideoCapture(temp_file.name)
+            frames = self.extract_frames(cap)
+            temp_file.close()
+            
+            # Rest of the processing remains the same
             if not frames:
                 logger.error("Error: Failed to extract frames from the video.")
                 return "Error: Failed to extract frames from the video."
 
             analysis = self.analyze_frames(frames)
             logger.info(f"Video processing completed successfully: {analysis}")
-            
-            # Clean up temporary file if it was created
-            if video_path.startswith('temp_'):
-                os.remove(video_path)
             
             return analysis
         except Exception as e:

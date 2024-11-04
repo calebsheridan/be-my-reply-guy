@@ -12,8 +12,6 @@ from src.agents.base_agent import Agent
 import base64
 import os
 import requests
-from io import BytesIO
-from PIL import Image
 from openai import OpenAI
 import argparse
 from src.utils.logger import Logger
@@ -69,17 +67,13 @@ class ImageProcessorAgent(Agent):
                 if response.status_code != 200:
                     logger.error(f"Error: Failed to download image from {image_path}")
                     return None
-                img = Image.open(BytesIO(response.content))
+                return response.content
             else:
                 if not os.path.exists(image_path):
                     logger.error(f"Error: Image file not found at {image_path}")
                     return None
-                img = Image.open(image_path)
-
-            img = img.convert('RGB')
-            img_byte_arr = BytesIO()
-            img.save(img_byte_arr, format='JPEG')
-            return img_byte_arr.getvalue()
+                with open(image_path, 'rb') as f:
+                    return f.read()
         except Exception as e:
             logger.error(f"Error loading image: {str(e)}", exc_info=True)
             return None
