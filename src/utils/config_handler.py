@@ -4,9 +4,8 @@ This file is responsible for reading and parsing the YAML configuration file.
 """
 
 import yaml
-import logging
 from pprint import pformat
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 

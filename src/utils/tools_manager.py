@@ -6,7 +6,7 @@ This file contains the tools registry and execution logic.
 from typing import Dict, List, Callable
 from dataclasses import dataclass
 import json
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 
