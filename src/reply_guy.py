@@ -6,6 +6,7 @@ from src.agents.tweet_analyzer_with_tools_agent import TweetAnalyzerWithToolsAge
 from src.agents.video_processor_agent import VideoProcessorAgent
 from src.utils.tweet_fetcher import TweetFetcher
 from src.utils.config_handler import load_config
+from src.utils.oembed_fetcher import OEmbedFetcher
 
 class ReplyGuy:
     def __init__(self):
@@ -15,6 +16,7 @@ class ReplyGuy:
         self.video_processor = VideoProcessorAgent()
         self.tweet_analyzer = TweetAnalyzerWithToolsAgent()
         self.reply_generator = ReplyGeneratorAgent()
+        self.oembed_fetcher = OEmbedFetcher()
     
     def process_tweet(self, tweet_url: str) -> Dict:
         try:
@@ -23,14 +25,15 @@ class ReplyGuy:
             tweet_context = self._build_tweet_context(tweet, media_descriptions)
             analysis = self.tweet_analyzer.process(tweet_context)
             replies = self.reply_generator.process(tweet['text'], analysis)
-            output_path = "output_path"
+            embed_html = self.oembed_fetcher.get_embed_html(tweet_url)
             
             return {
                 "status": "success",
                 "tweet": tweet,
                 "analysis": analysis,
                 "replies": replies,
-                "output_path": output_path
+                "tweet_url": tweet_url,
+                "embed_html": embed_html
             }
         except Exception as e:
             return {

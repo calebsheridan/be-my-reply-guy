@@ -9,6 +9,19 @@
             </div>
             <div class="card-body">
                 {% if result.status == "success" %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3>Original Tweet:</h3>
+                            {% if result.embed_html %}
+                                {{ result.embed_html | safe }}
+                            {% else %}
+                                <a href="{{ result.tweet_url }}" target="_blank" class="btn btn-outline-primary mb-3">
+                                    <i class="fab fa-twitter"></i> View Tweet
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
                     {% if result.replies %}
                         <h3>Suggested Replies:</h3>
                         {% for reply in result.replies %}
