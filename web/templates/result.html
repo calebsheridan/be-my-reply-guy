@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Generated Replies</h2>
+            </div>
+            <div class="card-body">
+                {% if result.status == "success" %}
+                    {% if result.replies %}
+                        <h3>Suggested Replies:</h3>
+                        {% for reply in result.replies %}
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    {{ reply }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if result.analysis %}
+                        <h3>Analysis:</h3>
+                        <pre class="bg-light p-3">{{ result.analysis }}</pre>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-danger">
+                        Error: {{ result.error }}
+                    </div>
+                {% endif %}
+
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('web.index') }}" class="btn btn-primary">Generate Another Reply</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
