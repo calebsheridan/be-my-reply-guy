@@ -8,7 +8,7 @@ and implements the process method to perform image analysis.
 The agent uses the OpenAI API to generate an analysis of the image.
 """
 
-from .base_agent import Agent
+from src.agents.base_agent import Agent
 import base64
 import os
 import requests
@@ -16,7 +16,7 @@ from io import BytesIO
 from PIL import Image
 from openai import OpenAI
 import argparse
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 

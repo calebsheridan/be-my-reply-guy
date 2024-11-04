@@ -5,11 +5,11 @@ This file contains the TweetAnalyzerWithToolsAgent class, which extends the base
 to analyze tweets using AI models and additional tools like internet search and image analysis.
 """
 
-from .base_agent import Agent
-from utils.tools_manager import ToolsManager
-from utils.tools_registry import register_all_tools
+from src.agents.base_agent import Agent
+from src.utils.tools_manager import ToolsManager
+from src.utils.tools_registry import register_all_tools
 import argparse
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 

@@ -9,7 +9,7 @@ The agent uses OpenCV for frame extraction and the OpenAI API to generate an ana
 of the extracted frames.
 """
 
-from .base_agent import Agent
+from src.agents.base_agent import Agent
 import cv2
 import base64
 import os
@@ -17,7 +17,7 @@ from openai import OpenAI
 import requests
 from urllib.parse import urlparse
 import argparse
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 
