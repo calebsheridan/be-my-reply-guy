@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Generated Replies</h2>
+            </div>
+            <div class="card-body">
+                {% if result.status == "success" %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h3>Original Tweet:</h3>
+                            {% if result.embed_html %}
+                                {{ result.embed_html | safe }}
+                            {% else %}
+                                <a href="{{ result.tweet_url }}" target="_blank" class="btn btn-outline-primary mb-3">
+                                    <i class="fab fa-twitter"></i> View Tweet
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    {% if result.replies %}
+                        <h3>Suggested Replies:</h3>
+                        {% for reply in result.replies %}
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    {{ reply }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if result.analysis %}
+                        <h3>Analysis:</h3>
+                        <pre class="bg-light p-3">{{ result.analysis }}</pre>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-danger">
+                        Error: {{ result.error }}
+                    </div>
+                {% endif %}
+
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('web.index') }}" class="btn btn-primary">Generate Another Reply</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

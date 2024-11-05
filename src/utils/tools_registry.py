@@ -3,11 +3,11 @@ Central registry for all available tools.
 Register new tools here to make them available throughout the application.
 """
 
-from utils.tools_manager import Tool, ToolsManager
-from agents.internet_search_agent import InternetSearchAgent
-from agents.image_processor_agent import ImageProcessorAgent
-from agents.web_content_agent import WebContentAgent
-from agents.video_processor_agent import VideoProcessorAgent
+from src.utils.tools_manager import Tool, ToolsManager
+from src.agents.internet_search_agent import InternetSearchAgent
+from src.agents.image_processor_agent import ImageProcessorAgent
+from src.agents.web_content_agent import WebContentAgent
+from src.agents.video_processor_agent import VideoProcessorAgent
 
 def search_internet(params):
     """Implementation function for internet search tool."""

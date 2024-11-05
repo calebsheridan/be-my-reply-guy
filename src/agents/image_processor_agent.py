@@ -8,15 +8,13 @@ and implements the process method to perform image analysis.
 The agent uses the OpenAI API to generate an analysis of the image.
 """
 
-from .base_agent import Agent
+from src.agents.base_agent import Agent
 import base64
 import os
 import requests
-from io import BytesIO
-from PIL import Image
 from openai import OpenAI
 import argparse
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 
@@ -69,17 +67,13 @@ class ImageProcessorAgent(Agent):
                 if response.status_code != 200:
                     logger.error(f"Error: Failed to download image from {image_path}")
                     return None
-                img = Image.open(BytesIO(response.content))
+                return response.content
             else:
                 if not os.path.exists(image_path):
                     logger.error(f"Error: Image file not found at {image_path}")
                     return None
-                img = Image.open(image_path)
-
-            img = img.convert('RGB')
-            img_byte_arr = BytesIO()
-            img.save(img_byte_arr, format='JPEG')
-            return img_byte_arr.getvalue()
+                with open(image_path, 'rb') as f:
+                    return f.read()
         except Exception as e:
             logger.error(f"Error loading image: {str(e)}", exc_info=True)
             return None

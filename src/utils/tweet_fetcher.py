@@ -10,7 +10,7 @@ import re
 import requests
 from typing import Optional, Dict, Any, Tuple
 from urllib.parse import urlparse
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 

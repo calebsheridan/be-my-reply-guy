@@ -12,7 +12,7 @@ from abc import ABC, abstractmethod
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 

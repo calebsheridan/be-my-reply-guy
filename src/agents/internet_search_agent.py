@@ -3,11 +3,11 @@ Internet search tool for the Be My Reply Guy application.
 This file contains the InternetSearchAgent class for searching the internet using the Perplexity API.
 """
 
-from .base_agent import Agent
+from src.agents.base_agent import Agent
 import os
 import argparse
 from openai import OpenAI
-from utils.logger import Logger
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 

@@ -6,9 +6,9 @@ replies to tweets using AI models. It inherits from the base Agent class and imp
 the process method to generate appropriate responses.
 """
 
-from .base_agent import Agent
-from utils.config_handler import load_config
-from utils.logger import Logger
+from src.agents.base_agent import Agent
+from src.utils.config_handler import load_config
+from src.utils.logger import Logger
 
 logger = Logger().get_logger(__name__)
 

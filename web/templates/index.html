@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="text-center">Generate Reply</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('web.index') }}">
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        <label for="tweet_url" class="form-label">Tweet URL</label>
+                        {{ form.tweet_url(class="form-control", placeholder="Enter tweet URL") }}
+                        {% if form.tweet_url.errors %}
+                            {% for error in form.tweet_url.errors %}
+                                <div class="text-danger">{{ error }}</div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Generate Reply</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 
